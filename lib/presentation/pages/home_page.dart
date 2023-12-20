@@ -1,5 +1,6 @@
 import 'package:application_edspert/core/themes/app_fonts.dart';
 import 'package:application_edspert/core/themes/app_grayscale.dart';
+import 'package:application_edspert/presentation/bloc/auth/auth_bloc.dart';
 import 'package:application_edspert/presentation/widgets/banner_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hai, ${state.user.userName}',
+                    state.user.userName,
                     style: AppFonts.appFont.titleMedium!.copyWith(
                       fontWeight: FontWeight.w700,
                       color: AppGrayscale.title,
@@ -168,43 +169,44 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
                     'Terbaru',
                     style: AppFonts.appFont.headlineSmall!.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SizedBox(height: 10.h),
-                  SizedBox(
-                    height: 140.h,
-                    child: BlocBuilder<BannerBloc, BannerState>(
-                      builder: (context, state) {
-                        if (state is BannerSuccessState) {
-                          return ListView.separated(
-                            itemBuilder: (context, index) {
-                              return BannerContainerWidget(
-                                  banner: state.banners[index]);
-                            },
-                            separatorBuilder: (context, index) {
-                              return SizedBox(width: 10.w);
-                            },
-                            itemCount: state.banners.length,
-                            scrollDirection: Axis.horizontal,
-                          );
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                ),
+                SizedBox(height: 10.h),
+                SizedBox(
+                  height: 140.h,
+                  child: BlocBuilder<BannerBloc, BannerState>(
+                    builder: (context, state) {
+                      if (state is BannerSuccessState) {
+                        return ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          itemBuilder: (context, index) {
+                            return BannerContainerWidget(
+                                banner: state.banners[index]);
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(width: 10.w);
+                          },
+                          itemCount: state.banners.length,
+                          scrollDirection: Axis.horizontal,
                         );
-                      },
-                    ),
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             SizedBox(height: 40.h),
           ],

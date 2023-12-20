@@ -1,9 +1,11 @@
 import 'package:application_edspert/core/themes/app_colors.dart';
 import 'package:application_edspert/core/themes/app_fonts.dart';
 import 'package:application_edspert/core/themes/app_grayscale.dart';
+import 'package:application_edspert/presentation/bloc/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/user/user_bloc.dart';
 
@@ -223,45 +225,61 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ),
-            Container(
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: AppGrayscale.title.withOpacity(
-                      0.25,
-                    ), // Adjust the color and opacity as needed
-                    offset: const Offset(0, 0),
-                    blurRadius: 6,
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppGrayscale.off,
-                  elevation: 0,
+            BlocListener<AuthBloc, AuthState>(
+              listenWhen: (previous, current) {
+                return (previous is SignOutState &&
+                        previous.isLoading == true) ||
+                    (current is SignOutState && current.isLoading == false);
+              },
+              listener: (context, state) {
+                if (state is SignOutState && !state.isLoading) {
+                  context.go('/login');
+                } else {
+                  print('gagal logout');
+                }
+              },
+              child: Container(
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppGrayscale.title.withOpacity(
+                        0.25,
+                      ), // Adjust the color and opacity as needed
+                      offset: const Offset(0, 0),
+                      blurRadius: 6,
+                      spreadRadius: 0,
+                    ),
+                  ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.logout,
-                        color: AppColors.error,
-                      ),
-                      Text(
-                        'Keluar',
-                        style: AppFonts.appFont.titleMedium!.copyWith(
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(SignOutEvent());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppGrayscale.off,
+                    elevation: 0,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.logout,
                           color: AppColors.error,
                         ),
-                      ),
-                    ],
+                        Text(
+                          'Keluar',
+                          style: AppFonts.appFont.titleMedium!.copyWith(
+                            color: AppColors.error,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

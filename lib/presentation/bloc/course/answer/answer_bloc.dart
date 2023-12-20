@@ -16,7 +16,7 @@ class AnswerBloc extends Bloc<AnswerEvent, AnswerState> {
         if (event is SubmitAnswerEvent) {
           emit(AnswerLoading());
           final bool? data = await submitRequest(event.request);
-          if (data == null) {
+          if (data == false) {
             emit(AnswerFail(message: 'Something went wrong!'));
           } else {
             emit(AnswerSuccess(submit: data));

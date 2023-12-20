@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:application_edspert/presentation/widgets/button_login_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/themes/app_fonts.dart';
 import '../../core/themes/app_grayscale.dart';
+import '../bloc/auth/auth_bloc.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -56,15 +60,45 @@ class LoginPage extends StatelessWidget {
               ),
               Column(
                 children: [
-                  ButtonLoginWidget(
-                    bgColor: Colors.white,
-                    image: 'assets/images/google_logo.png',
-                    text: 'Login with Google',
-                    textColor: Colors.black,
-                    borderColor: const Color(0xff01B1AF),
-                    onTap: () {
-                      context.go('/home');
+                  BlocListener<AuthBloc, AuthState>(
+                    listenWhen: (previous, current) =>
+                        (previous is SignInWithGoogleState &&
+                                previous.isLoading == true) &&
+                            (current is SignInWithGoogleState &&
+                                current.isLoading == false) ||
+                        (previous is CheckIsUserRegisteredState &&
+                                previous.isLoading == true) &&
+                            (current is CheckIsUserRegisteredState &&
+                                current.isLoading == false),
+                    listener: (context, state) {
+                      if (state is SignInWithGoogleState) {
+                        if (!state.isLoading && state.result != null) {
+                          context
+                              .read<AuthBloc>()
+                              .add(CheckIsUserRegisteredEvent());
+                        } else {
+                          inspect('Login cancelled!');
+                        }
+                      }
+                      if (state is CheckIsUserRegisteredState) {
+                        bool isRegistered = state.isRegistered;
+                        if (!isRegistered) {
+                          context.push('/register');
+                        } else {
+                          context.go('/home');
+                        }
+                      }
                     },
+                    child: ButtonLoginWidget(
+                      bgColor: Colors.white,
+                      image: 'assets/images/google_logo.png',
+                      text: 'Login with Google',
+                      textColor: Colors.black,
+                      borderColor: const Color(0xff01B1AF),
+                      onTap: () {
+                        context.read<AuthBloc>().add(SignInWithGoogleEvent());
+                      },
+                    ),
                   ),
                   SizedBox(height: 20.h),
                   ButtonLoginWidget(

@@ -12,6 +12,8 @@ import 'package:go_router/go_router.dart';
 import '../../presentation/pages/course_exercise_page.dart';
 import '../../presentation/pages/course_question_page.dart';
 import '../../presentation/pages/course_result_page.dart';
+import '../../presentation/pages/register_page.dart';
+import '../../presentation/pages/splash_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _rootNavigatorHome = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
@@ -21,9 +23,17 @@ final _rootNavigatorProfile =
     GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
 
 final GoRouter router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/splash',
   navigatorKey: _rootNavigatorKey,
   routes: [
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/splash',
+      name: AppConsRoute.splashScreenRouteName,
+      builder: (context, state) => SplashPage(
+        key: state.pageKey,
+      ),
+    ),
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/login',
@@ -32,14 +42,14 @@ final GoRouter router = GoRouter(
         key: state.pageKey,
       ),
     ),
-    // GoRoute(
-    //   parentNavigatorKey: _rootNavigatorKey,
-    //   path: '/register',
-    //   name: AppConsRoute.registerPageRouteName,
-    //   builder: (context, state) => RegistrationPage(
-    //     key: state.pageKey,
-    //   ),
-    // ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/register',
+      name: AppConsRoute.registerPageRouteName,
+      builder: (context, state) => RegistrationPage(
+        key: state.pageKey,
+      ),
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return NavbarBottomWidget(navigationShell: navigationShell);
