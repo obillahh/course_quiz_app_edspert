@@ -1,4 +1,3 @@
-import 'package:application_edspert/domain/entity/course/course_answer_request_entity.dart';
 import 'package:application_edspert/domain/usecase/course/submit_course_answer_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';

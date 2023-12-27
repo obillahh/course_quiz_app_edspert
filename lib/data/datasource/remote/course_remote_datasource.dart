@@ -19,7 +19,7 @@ class CourseRemoteDatasource {
         url,
         queryParameters: {
           "major_name": majorName,
-          "user_email": "juveticsatu@gmail.com",
+          "user_email": "testerngbayu@gmail.com",
         },
         options: Options(
           headers: {'x-api-key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
@@ -42,7 +42,7 @@ class CourseRemoteDatasource {
         url,
         queryParameters: {
           'course_id': courseId,
-          'user_email': 'juveticsatu@gmail.com',
+          'user_email': 'testerngbayu@gmail.com',
         },
         options: Options(
           headers: {'x-api-key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
@@ -64,7 +64,7 @@ class CourseRemoteDatasource {
         url,
         data: {
           'exercise_id': exerciseId,
-          'user_email': 'juveticsatu@gmail.com',
+          'user_email': 'testerngbayu@gmail.com',
         },
         options: Options(
           headers: {'x-api-key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
@@ -104,12 +104,13 @@ class CourseRemoteDatasource {
         url,
         queryParameters: {
           'exercise_id': exerciseId,
-          'user_email': 'juveticsatu@gmail.com',
+          'user_email': 'testerngbayu@gmail.com',
         },
         options: Options(
           headers: {'x-api-key': '18be70c0-4e4d-44ff-a475-50c51ece99a0'},
         ),
       );
+      print('Course Result Response: $result');
       final courseResult = CourseResultResponseModel.fromJson(result.data);
       return courseResult;
     } catch (e) {

@@ -7,6 +7,6 @@ class GetCourseResultUsecase {
 
   GetCourseResultUsecase({required this.repository});
 
-  Future<CourseResultResponseEntity?> call(String exerciseId) async =>
+  Future<CourseResultDataEntity?> call(String exerciseId) async =>
       await repository.getCourseResult(exerciseId);
 }

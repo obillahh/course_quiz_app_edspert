@@ -12,7 +12,7 @@ import 'package:application_edspert/domain/usecase/auth/is_user_registered_useca
 import 'package:application_edspert/domain/usecase/auth/sign_in_with_google_usecase.dart';
 import 'package:application_edspert/domain/usecase/auth/sign_out_usecase.dart';
 import 'package:application_edspert/domain/usecase/banner/get_banners_usecase.dart';
-import 'package:application_edspert/domain/usecase/course/get_course_result.dart';
+import 'package:application_edspert/domain/usecase/course/get_course_result_usecase.dart';
 import 'package:application_edspert/domain/usecase/course/get_courses_usecase.dart';
 import 'package:application_edspert/domain/usecase/course/get_exercise_by_course_id_usecase.dart';
 import 'package:application_edspert/domain/usecase/course/submit_course_answer_usecase.dart';
@@ -129,10 +129,13 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-          )..add(GetUserByEmailEvent(
-              email:
-                  context.read<AuthBloc>().getCurrentSignedInEmailUsecase() ??
-                      ''),),
+          )..add(
+              GetUserByEmailEvent(
+                  email: context
+                          .read<AuthBloc>()
+                          .getCurrentSignedInEmailUsecase() ??
+                      ''),
+            ),
         ),
         BlocProvider(
           create: (context) => UserRegisterBloc(

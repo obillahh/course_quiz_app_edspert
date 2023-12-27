@@ -8,7 +8,7 @@ final class ResultInitial extends ResultState {}
 final class ResultLoading extends ResultState {}
 
 final class ResultSuccess extends ResultState {
-  final CourseResultResponseEntity courseResult;
+  final CourseResultDataEntity courseResult;
 
   ResultSuccess({required this.courseResult});
 }

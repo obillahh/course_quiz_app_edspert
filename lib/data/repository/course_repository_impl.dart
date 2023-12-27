@@ -116,45 +116,39 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<CourseResultResponseEntity?> getCourseResult(String exerciseId) async {
+  Future<CourseResultDataEntity?> getCourseResult(String exerciseId) async {
     final response = await remoteDatasource.getCourseResult(exerciseId);
     if (response.data == null) {
       return null;
     }
-    final data = CourseResultResponseEntity(
-      status: response.status ?? -1,
-      message: response.message ?? '',
-      data: CourseResultDataEntity(
-        exercise: CourseResultExerciseEntity(
-          exerciseId: response.data?.exercise?.exerciseId ?? '',
-          exerciseCode: response.data?.exercise?.exerciseCode ?? '',
-          fileCourse: response.data?.exercise?.fileCourse ?? '',
-          icon: response.data?.exercise?.icon ?? '',
-          exerciseTitle: response.data?.exercise?.exerciseTitle ?? '',
-          exerciseDescription:
-              response.data?.exercise?.exerciseDescription ?? '',
-          exerciseInstruction:
-              response.data?.exercise?.exerciseInstruction ?? '',
-          countQuestion: response.data?.exercise?.countQuestion ?? '',
-          classFk: response.data?.exercise?.classFk ?? '',
-          courseFk: response.data?.exercise?.courseFk ?? '',
-          courseContentFk: response.data?.exercise?.courseContentFk ?? '',
-          subCourseContentFk: response.data?.exercise?.subCourseContentFk ?? '',
-          creatorId: response.data?.exercise?.creatorId ?? '',
-          creatorName: response.data?.exercise?.creatorName ?? '',
-          examFrom: response.data?.exercise?.examFrom ?? '',
-          accessType: response.data?.exercise?.accessType ?? '',
-          exerciseOrder: response.data?.exercise?.exerciseOrder ?? '',
-          exerciseStatus: response.data?.exercise?.exerciseStatus ?? '',
-          dateCreate: response.data?.exercise?.dateCreate ?? DateTime.now(),
-          dateUpdate: response.data?.exercise?.dateUpdate ?? DateTime.now(),
-        ),
-        result: CourseResultValueEntity(
-          jumlahBenar: response.data?.result?.jumlahBenar ?? '',
-          jumlahSalah: response.data?.result?.jumlahSalah ?? '',
-          jumlahTidak: response.data?.result?.jumlahTidak ?? '',
-          jumlahScore: response.data?.result?.jumlahScore ?? '',
-        ),
+    final data = CourseResultDataEntity(
+      exercise: CourseResultExerciseEntity(
+        exerciseId: response.data?.exercise?.exerciseId ?? '',
+        exerciseCode: response.data?.exercise?.exerciseCode ?? '',
+        fileCourse: response.data?.exercise?.fileCourse ?? '',
+        icon: response.data?.exercise?.icon ?? '',
+        exerciseTitle: response.data?.exercise?.exerciseTitle ?? '',
+        exerciseDescription: response.data?.exercise?.exerciseDescription ?? '',
+        exerciseInstruction: response.data?.exercise?.exerciseInstruction ?? '',
+        countQuestion: response.data?.exercise?.countQuestion ?? '',
+        classFk: response.data?.exercise?.classFk ?? '',
+        courseFk: response.data?.exercise?.courseFk ?? '',
+        courseContentFk: response.data?.exercise?.courseContentFk ?? '',
+        subCourseContentFk: response.data?.exercise?.subCourseContentFk ?? '',
+        creatorId: response.data?.exercise?.creatorId ?? '',
+        creatorName: response.data?.exercise?.creatorName ?? '',
+        examFrom: response.data?.exercise?.examFrom ?? '',
+        accessType: response.data?.exercise?.accessType ?? '',
+        exerciseOrder: response.data?.exercise?.exerciseOrder ?? '',
+        exerciseStatus: response.data?.exercise?.exerciseStatus ?? '',
+        dateCreate: response.data?.exercise?.dateCreate ?? DateTime.now(),
+        dateUpdate: response.data?.exercise?.dateUpdate ?? DateTime.now(),
+      ),
+      result: CourseResultValueEntity(
+        jumlahBenar: response.data?.result?.jumlahBenar ?? '',
+        jumlahSalah: response.data?.result?.jumlahSalah ?? '',
+        jumlahTidak: response.data?.result?.jumlahTidak ?? '',
+        jumlahScore: response.data?.result?.jumlahScore ?? '',
       ),
     );
     return data;

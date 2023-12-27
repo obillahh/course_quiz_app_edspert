@@ -1,13 +1,12 @@
 import 'package:application_edspert/core/themes/app_fonts.dart';
 import 'package:application_edspert/core/themes/app_grayscale.dart';
-import 'package:application_edspert/domain/entity/course/course_result_response_entity.dart';
-import 'package:application_edspert/presentation/widgets/result_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/themes/app_colors.dart';
+import '../../domain/entity/course/course_result_response_entity.dart';
 import '../bloc/course/result/result_bloc.dart';
 
 class CourseResultPage extends StatelessWidget {
@@ -38,7 +37,7 @@ class CourseResultPage extends StatelessWidget {
               ),
             ),
             Text(
-              'Kamu telah menyelesaikan Kuiz ini',
+              'Kamu telah menyelesaikan Quiz ini',
               style: AppFonts.appFont.bodyMedium!.copyWith(
                 color: AppGrayscale.off,
               ),
@@ -55,12 +54,23 @@ class CourseResultPage extends StatelessWidget {
                 color: AppGrayscale.off,
               ),
             ),
+            SizedBox(height: 80.h),
             BlocBuilder<ResultBloc, ResultState>(
               builder: (context, state) {
                 if (state is ResultSuccess) {
-                  return ResultWidget(result: state.courseResult);
+                  return Text(
+                    state.courseResult.result.jumlahScore,
+                    style: AppFonts.appFont.headlineLarge!.copyWith(
+                      color: AppGrayscale.off,
+                    ),
+                  );
                 }
-                return const CircularProgressIndicator();
+                if (state is ResultFail) {
+                  return Text(state.message);
+                }
+                return const CircularProgressIndicator(
+                  color: AppGrayscale.off,
+                );
               },
             ),
           ],

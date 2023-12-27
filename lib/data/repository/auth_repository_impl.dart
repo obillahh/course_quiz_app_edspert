@@ -42,12 +42,22 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isUserRegistered() async {
-    bool isRegistered = await UserRepositoryImpl(
-                remoteDatasource: UserRemoteDatasource(client: Dio()))
-            .getUser(getCurrentSignedInEmail() ?? '') !=
-        null;
-    inspect('isRegistered: $isRegistered');
-    return isRegistered;
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return false;
+      }
+
+      final userData = await UserRepositoryImpl(
+        remoteDatasource: UserRemoteDatasource(client: Dio()),
+      ).getUser(user.email ?? '');
+
+      // Check if user data exists (user is registered)
+      return userData != null;
+    } catch (e, stackTrace) {
+      inspect('Error checking user registration: $e, $stackTrace');
+      return false;
+    }
   }
 
   @override

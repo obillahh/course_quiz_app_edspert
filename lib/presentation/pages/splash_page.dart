@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  const SplashPage({Key? key}) : super(key: key);
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Future.delayed(const Duration(seconds: 4)).then((value) {
       context.read<AuthBloc>().add(CheckIsSignedInWithGoogleEvent());
-      context.read<AuthBloc>().add(CheckIsUserRegisteredEvent());
+      // context.read<AuthBloc>().add(CheckIsUserRegisteredEvent());
     });
   }
 
@@ -36,23 +36,25 @@ class _SplashPageState extends State<SplashPage> {
                     previous.isLoading == true) &&
                 (current is CheckIsUserRegisteredState &&
                     current.isLoading == false);
-        return isResultOfCheckUserRegistered ||
-            isResultOfCheckUserSignedInWithGoogle;
+        return isResultOfCheckUserSignedInWithGoogle ||
+            isResultOfCheckUserRegistered;
       },
       listener: (context, state) {
+        if (state is CheckIsUserSignedInWithGoogleState) {
+          if (!state.isLoading) {
+            if (state.isSignedIn) {
+              context.read<AuthBloc>().add(CheckIsUserRegisteredEvent());
+            } else {
+              context.go('/login');
+            }
+          }
+        }
         if (state is CheckIsUserRegisteredState) {
           bool isRegistered = state.isRegistered;
           if (!isRegistered) {
             context.go('/register');
           } else {
             context.go('/home');
-          }
-        }
-        if (state is CheckIsUserSignedInWithGoogleState) {
-          if (!state.isLoading && state.isSignedIn) {
-            context.read<AuthBloc>().add(CheckIsUserRegisteredEvent());
-          } else {
-            context.go('/login');
           }
         }
       },

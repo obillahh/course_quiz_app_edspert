@@ -69,6 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             isLoading: false,
           ));
         }
+
         if (event is SignOutEvent) {
           emit(SignOutState(
             signOut: false,

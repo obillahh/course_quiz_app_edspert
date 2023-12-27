@@ -13,12 +13,12 @@ class QuestionWidget extends StatefulWidget {
   final bool isLastPage;
   final Function() onTap;
   const QuestionWidget({
-    super.key,
+    Key? key,
     required this.index,
     required this.question,
     required this.onTap,
     required this.isLastPage,
-  });
+  }) : super(key: key);
 
   @override
   State<QuestionWidget> createState() => _QuestionWidgetState();
@@ -41,19 +41,21 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             ),
             SizedBox(height: 12.h),
             if (widget.question.questionTitleImg != null)
-              Image.network(widget.question.questionTitleImg,
-                  errorBuilder: (context, error, stackTrace) {
-                return const Text(
-                  'No IMG',
-                );
-              }),
+              Image.network(
+                widget.question.questionTitleImg,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Text(
+                    'No IMG',
+                  );
+                },
+              ),
             Html(
               data: widget.question.questionTitle,
               style: {
                 'body': Style(
                   textAlign: TextAlign.justify,
                   fontSize: FontSize(12.sp),
-                )
+                ),
               },
             ),
             SizedBox(height: 12.h),
@@ -68,8 +70,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   color: widget.question.studentAnswer == 'A'
                       ? AppColors.primary
                       : AppGrayscale.off,
-                  borderRadius: BorderRadius.circular(
-                      10), // Replace with the desired border radius
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: AppGrayscale.placeholder,
                   ),
@@ -102,8 +103,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   color: widget.question.studentAnswer == 'B'
                       ? AppColors.primary
                       : AppGrayscale.off,
-                  borderRadius: BorderRadius.circular(
-                      10), // Replace with the desired border radius
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: AppGrayscale.placeholder,
                   ),
@@ -136,8 +136,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   color: widget.question.studentAnswer == 'C'
                       ? AppColors.primary
                       : AppGrayscale.off,
-                  borderRadius: BorderRadius.circular(
-                      10), // Replace with the desired border radius
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: AppGrayscale.placeholder,
                   ),
@@ -170,8 +169,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   color: widget.question.studentAnswer == 'D'
                       ? AppColors.primary
                       : AppGrayscale.off,
-                  borderRadius: BorderRadius.circular(
-                      10), // Replace with the desired border radius
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: AppGrayscale.placeholder,
                   ),
@@ -205,8 +203,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   color: widget.question.studentAnswer == 'E'
                       ? AppColors.primary
                       : AppGrayscale.off,
-                  borderRadius: BorderRadius.circular(
-                      10), // Replace with the desired border radius
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                     color: AppGrayscale.placeholder,
                   ),
@@ -243,7 +240,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: widget.isLastPage
                       ? const Text('Kumpulin')
-                      : const Text('Selajutnya'),
+                      : const Text('Selanjutnya'),
                 ),
               ),
             ),

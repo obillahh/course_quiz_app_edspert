@@ -21,14 +21,15 @@ class CourseQuestionPage extends StatefulWidget {
 }
 
 class _CourseQuestionPageState extends State<CourseQuestionPage> {
-  late PageController _pageController;
-  int _currentIndex = 0;
+  final PageController _pageController = PageController();
+  int currentIndex = 0;
   bool isLastPage = false;
+  List<String> answers = List.filled(10, '');
 
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
+  void updateAnswer(String answer) {
+    setState(() {
+      answers[currentIndex] = answer;
+    });
   }
 
   void _goToQuestion(int questionNumber) {
@@ -80,9 +81,11 @@ class _CourseQuestionPageState extends State<CourseQuestionPage> {
                           if (index >= 0 &&
                               index < state.courseQuestion!.length) {
                             _goToQuestion(index);
-                            setState(() {
-                              _currentIndex = index;
-                            });
+                            setState(
+                              () {
+                                currentIndex = index;
+                              },
+                            );
                           }
                         },
                       );
@@ -111,7 +114,10 @@ class _CourseQuestionPageState extends State<CourseQuestionPage> {
                   index: index,
                   question: state.courseQuestion![index],
                   onTap: () {
-                    if (isLastPage == true) {
+                    updateAnswer(state.courseQuestion![index].studentAnswer);
+                    if (isLastPage != true) {
+                      nextPage();
+                    } else {
                       showModalBottomSheet(
                         context: context,
                         builder: (context) {
@@ -137,7 +143,9 @@ class _CourseQuestionPageState extends State<CourseQuestionPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        context.pop();
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: AppGrayscale.off,
                                         shape: RoundedRectangleBorder(
@@ -151,60 +159,83 @@ class _CourseQuestionPageState extends State<CourseQuestionPage> {
                                       child: const Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 10),
-                                        child: Text('Nanti Dulu',
-                                            style: TextStyle(
-                                              color: AppColors.primary,
-                                            )),
+                                        child: Text(
+                                          'Nanti Dulu',
+                                          style: TextStyle(
+                                            color: AppColors.primary,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        final question =
-                                            state.courseQuestion![index];
-                                        if (question.studentAnswer.isNotEmpty) {
-                                          final answerRequest =
-                                              CourseAnswerRequestModel(
-                                            userEmail: "testerngbayu@gmail.com",
-                                            exerciseId: question.exerciseIdFk,
-                                            bankQuestionId: [
-                                              question.bankQuestionId.toString()
-                                            ],
-                                            studentAnswer: [
-                                              question.studentAnswer
-                                            ],
-                                          );
-                                          context.read<AnswerBloc>().add(
-                                              SubmitAnswerEvent(
-                                                  request: answerRequest));
-                                          context.read<ResultBloc>().add(
-                                              GetCourseResultEvent(
-                                                  exerciseId:
-                                                      question.exerciseIdFk));
+                                    BlocListener<AnswerBloc, AnswerState>(
+                                      listenWhen: (previous, current) =>
+                                          (previous is AnswerLoading &&
+                                              current is AnswerSuccess) ||
+                                          (previous is AnswerLoading &&
+                                              current is AnswerFail),
+                                      listener: (context, state) {
+                                        if (state is AnswerSuccess) {
                                           context.go('/result');
-                                        } else {
+                                        } else if (state is AnswerFail) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                  'Anda belum menjawab pertanyaan ini.'),
+                                            SnackBar(
+                                              content: Text(state.message),
                                             ),
                                           );
                                         }
                                       },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.primary,
-                                        shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                            color: AppGrayscale.off,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          final List<String> studentAnswers =
+                                              answers
+                                                  .map((answer) =>
+                                                      answer.isNotEmpty
+                                                          ? answer
+                                                          : '')
+                                                  .toList();
+                                          final answerRequest =
+                                              CourseAnswerRequestModel(
+                                            userEmail: "testerngbayu@gmail.com",
+                                            exerciseId: state
+                                                .courseQuestion![currentIndex]
+                                                .exerciseIdFk,
+                                            bankQuestionId: state
+                                                .courseQuestion!
+                                                .map((question) =>
+                                                    question.bankQuestionId)
+                                                .toList(),
+                                            studentAnswer: studentAnswers,
+                                          );
+                                          print(answerRequest.studentAnswer);
+                                          context.read<AnswerBloc>().add(
+                                                SubmitAnswerEvent(
+                                                  request: answerRequest,
+                                                ),
+                                              );
+                                          context.read<ResultBloc>().add(
+                                                GetCourseResultEvent(
+                                                  exerciseId: state
+                                                      .courseQuestion![index]
+                                                      .exerciseIdFk,
+                                                ),
+                                              );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.primary,
+                                          shape: RoundedRectangleBorder(
+                                            side: const BorderSide(
+                                              color: AppGrayscale.off,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(14),
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(14),
                                         ),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                        child: Text('Kumpulin'),
+                                        child: const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 10),
+                                          child: Text('Kumpulin'),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -214,9 +245,8 @@ class _CourseQuestionPageState extends State<CourseQuestionPage> {
                           );
                         },
                       );
-                    } else {
-                      nextPage();
                     }
+                    print(state.courseQuestion![index].studentAnswer);
                   },
                   isLastPage: isLastPage,
                 );
@@ -224,7 +254,7 @@ class _CourseQuestionPageState extends State<CourseQuestionPage> {
               itemCount: state.courseQuestion!.length,
               onPageChanged: (index) {
                 setState(() {
-                  _currentIndex = index;
+                  currentIndex = index;
                   isLastPage = index == state.courseQuestion!.length - 1;
                 });
               },

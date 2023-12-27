@@ -19,5 +19,5 @@ abstract class CourseRepository {
 
   Future<bool?> submitQuestionAnswer(CourseAnswerRequestModel request);
 
-  Future<CourseResultResponseEntity?> getCourseResult(String exerciseId);
+  Future<CourseResultDataEntity?> getCourseResult(String exerciseId);
 }
