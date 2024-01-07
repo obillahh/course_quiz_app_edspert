@@ -82,10 +82,10 @@ class LoginPage extends StatelessWidget {
                       }
                       if (state is CheckIsUserRegisteredState) {
                         bool isRegistered = state.isRegistered;
-                        if (!isRegistered) {
-                          context.push('/register');
-                        } else {
+                        if (isRegistered) {
                           context.go('/home');
+                        } else {
+                          context.push('/register');
                         }
                       }
                     },

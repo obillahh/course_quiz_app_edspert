@@ -2,6 +2,7 @@ import 'package:application_edspert/core/constant/router_constant.dart';
 import 'package:application_edspert/domain/entity/course/course_result_response_entity.dart';
 import 'package:application_edspert/presentation/pages/course_page.dart';
 import 'package:application_edspert/presentation/pages/discussion_page.dart';
+import 'package:application_edspert/presentation/pages/edit_page.dart';
 import 'package:application_edspert/presentation/pages/home_page.dart';
 import 'package:application_edspert/presentation/pages/login_page.dart';
 import 'package:application_edspert/presentation/pages/profile_page.dart';
@@ -67,18 +68,18 @@ final GoRouter router = GoRouter(
             ),
           ],
         ),
-        StatefulShellBranch(
-          navigatorKey: _rootNavigatorDiscussion,
-          routes: [
-            GoRoute(
-              path: '/discussion',
-              name: AppConsRoute.discussionPageRouteName,
-              builder: (context, state) => DiscussionPage(
-                key: state.pageKey,
-              ),
-            ),
-          ],
-        ),
+        // StatefulShellBranch(
+        //   navigatorKey: _rootNavigatorDiscussion,
+        //   routes: [
+        //     GoRoute(
+        //       path: '/discussion',
+        //       name: AppConsRoute.discussionPageRouteName,
+        //       builder: (context, state) => DiscussionPage(
+        //         key: state.pageKey,
+        //       ),
+        //     ),
+        //   ],
+        // ),
         StatefulShellBranch(
           navigatorKey: _rootNavigatorProfile,
           routes: [
@@ -123,6 +124,14 @@ final GoRouter router = GoRouter(
       path: '/result',
       name: AppConsRoute.courseResultPageRouteName,
       builder: (context, state) => CourseResultPage(
+        key: state.pageKey,
+      ),
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/edit',
+      name: AppConsRoute.courseEditPageRouteName,
+      builder: (context, state) => EditPage(
         key: state.pageKey,
       ),
     ),

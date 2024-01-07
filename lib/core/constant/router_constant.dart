@@ -9,4 +9,5 @@ class AppConsRoute {
   static const String courseExercisePageRouteName = 'exercise';
   static const String courseQuestionPageRouteName = 'question';
   static const String courseResultPageRouteName = 'result';
+  static const String courseEditPageRouteName = 'edit';
 }

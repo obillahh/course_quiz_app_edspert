@@ -67,7 +67,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await FirebaseAuth.instance.signOut();
       return true;
     } catch (e, stackTrace) {
-      inspect('Error signInWithGoogle: $e, $stackTrace');
+      inspect('Error signOut: $e, $stackTrace');
       return false;
     }
   }

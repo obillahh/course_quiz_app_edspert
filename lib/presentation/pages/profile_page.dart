@@ -9,8 +9,21 @@ import 'package:go_router/go_router.dart';
 
 import '../bloc/user/user_bloc.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    context.read<UserBloc>().add(GetUserByEmailEvent(
+        email: context.read<AuthBloc>().getCurrentSignedInEmailUsecase()!));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +39,9 @@ class ProfilePage extends StatelessWidget {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              context.push('/edit');
+            },
             child: Text(
               'Edit',
               style: AppFonts.appFont.titleSmall!.copyWith(

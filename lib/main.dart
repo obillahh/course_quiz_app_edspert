@@ -25,6 +25,7 @@ import 'package:application_edspert/presentation/bloc/course/exercise/exercise_b
 import 'package:application_edspert/presentation/bloc/course/question/question_bloc.dart';
 import 'package:application_edspert/presentation/bloc/course/result/result_bloc.dart';
 import 'package:application_edspert/presentation/bloc/user/register/user_register_bloc.dart';
+import 'package:application_edspert/presentation/bloc/user/user_update/user_update_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'data/datasource/remote/banner_remote_datasource.dart';
 import 'domain/usecase/course/get_question_by_exercise_id.dart';
+import 'domain/usecase/user/update_user_usecase.dart';
 import 'presentation/bloc/banner/banner_bloc.dart';
 import 'presentation/bloc/course/course_bloc.dart';
 import 'presentation/bloc/user/user_bloc.dart';
@@ -140,6 +142,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => UserRegisterBloc(
             registerUserRepository: RegisterUserUsecase(
+              repository: UserRepositoryImpl(
+                remoteDatasource: UserRemoteDatasource(
+                  client: Dio(),
+                ),
+              ),
+            ),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => UserUpdateBloc(
+            updateUserUsecase: UpdateUserUsecase(
               repository: UserRepositoryImpl(
                 remoteDatasource: UserRemoteDatasource(
                   client: Dio(),

@@ -224,7 +224,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         value: _dropdownButtonValue,
                         items: [
                           DropdownMenuItem(
-                            value: "",
+                            value: _dropdownButtonValue,
                             child: Text(
                               'Pilih Kelas',
                               style: AppFonts.appFont.bodySmall!.copyWith(
@@ -318,8 +318,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           BlocListener<UserRegisterBloc, UserRegisterState>(
             listener: (context, state) {
               if (state is UserRegisterSuccess) {
-                if (!state.register) {
-                  inspect(!state.register);
+                if (state.register) {
+                  inspect(state.register);
                   context.go('/home');
                 } else {
                   inspect('gagal regis');

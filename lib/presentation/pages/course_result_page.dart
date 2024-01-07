@@ -62,6 +62,7 @@ class CourseResultPage extends StatelessWidget {
                     state.courseResult.result.jumlahScore,
                     style: AppFonts.appFont.headlineLarge!.copyWith(
                       color: AppGrayscale.off,
+                      fontSize: 60.sp,
                     ),
                   );
                 }

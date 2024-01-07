@@ -19,12 +19,12 @@ class UserRegisterRequestModel {
 
   factory UserRegisterRequestModel.fromMap(Map<String, dynamic> map) =>
       UserRegisterRequestModel(
-        userName: map["user_name"],
-        userEmail: map["user_email"],
-        userFoto: map["user_foto"],
-        userAsalSekolah: map["user_asal_sekolah"],
+        userName: map["nama_lengkap"],
+        userEmail: map["email"],
+        userFoto: map["foto"],
+        userAsalSekolah: map["nama_sekolah"],
         jenjang: map["jenjang"],
-        userGender: map["user_gender"],
+        userGender: map["gender"],
         kelas: map["kelas"],
       );
 
