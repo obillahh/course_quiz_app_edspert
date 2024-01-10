@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/themes/app_colors.dart';
-import '../../domain/entity/course/course_result_response_entity.dart';
 import '../bloc/course/result/result_bloc.dart';
 
 class CourseResultPage extends StatelessWidget {

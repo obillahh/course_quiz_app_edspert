@@ -1,6 +1,5 @@
 import 'package:application_edspert/core/themes/app_fonts.dart';
 import 'package:application_edspert/core/themes/app_grayscale.dart';
-import 'package:application_edspert/presentation/bloc/auth/auth_bloc.dart';
 import 'package:application_edspert/presentation/widgets/banner_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

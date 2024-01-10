@@ -1,7 +1,6 @@
 import 'package:application_edspert/core/themes/app_colors.dart';
 import 'package:application_edspert/core/themes/app_grayscale.dart';
 import 'package:flutter/material.dart';
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';

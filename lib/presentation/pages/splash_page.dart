@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+  const SplashPage({super.key});
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -51,7 +51,7 @@ class _SplashPageState extends State<SplashPage> {
         }
         if (state is CheckIsUserRegisteredState) {
           bool isRegistered = state.isRegistered;
-          if (isRegistered) {
+          if (!isRegistered) {
             context.go('/home');
           } else {
             context.go('/register');

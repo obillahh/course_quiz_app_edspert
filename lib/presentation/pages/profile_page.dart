@@ -96,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                           Image.network(
-                            state.user.userFoto,
+                            'https://edspert.widyaedu.com/${state.user.userFoto}',
                             scale: 3.r,
                             errorBuilder: (context, error, stackTrace) {
                               return Image.asset(
